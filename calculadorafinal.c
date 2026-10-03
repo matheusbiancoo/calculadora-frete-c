@@ -3,42 +3,34 @@
 #include <windows.h>
 
 
-float calculoFrete(int regiao, float peso) {
+ float calculoFrete(int regiao, float peso) {
+    float frete = 0;
 
-    float frete;
+    switch (regiao) {
+        case 1: 
+            frete = (peso <= 2.0) ? 30.00 : 50.00;
+            break;
 
-    if (regiao == 1) {
-        frete = 30;
+        case 2: 
+            frete = (peso <= 2.0) ? 25.00 : 45.00;
+            break;
 
-        if (peso > 2) {
-            frete = 50;
-        }
+        case 3: 
+            frete = (peso <= 2.0) ? 35.00 : 55.00;
+            break;
 
-    } else if (regiao == 2) {
-        frete = 25;
+        case 4: 
+            frete = (peso <= 2.0) ? 40.00 : 60.00;
+            break;
 
-        if (peso > 2) {
-            frete = 45;
-        }
-
-    } else if (regiao == 3) {
-        frete = 35;
-
-        if (peso > 2) {
-            frete = 55;
-        }
-
-    } else {
-        frete = 40;
-
-        if (peso > 2) {
-            frete = 60;
-        }
+        default:
+            printf("\nOpção de região inválida!\n");
+            return 0;
+            
     }
 
     return frete;
 }
-
 
 const char* mostrarRegiao(int regiao) {
 
@@ -68,7 +60,9 @@ void Resumo(
     struct tm dataCompra,
     struct tm dataEntrega) {
 
-    printf("\n--- RESUMO DA COMPRA ---\n");
+     printf("\n==============================================\n");
+     printf("           RESUMO DA COMPRA E FRETE           \n");
+     printf("==============================================\n");
 
     printf("Codigo: %d\n", codigo);
 
@@ -108,7 +102,7 @@ int main() {
     char nome[50];
     float peso, frete, total, preco;
 
-    printf("\n--- CALCULADORA ---\n");
+     printf("=== CALCULADORA DE LOGÍSTICA - LOJA VIRTUAL ===\n\n");
 
     printf("Código do produto: ");
     scanf("%d", &codigo);
@@ -122,7 +116,7 @@ int main() {
     printf("Preço do produto (R$): ");
     scanf("%f", &preco);
 
-    printf("\nRegião de entrega:\n");
+     printf("\nSelecione a Região de Entrega:\n");
 
     printf("[1] Sul\n");
     printf("[2] Sudeste\n");
@@ -131,13 +125,6 @@ int main() {
 
     printf("Opção: ");
     scanf("%d", &regiao);
-
-
-    if (regiao < 1 || regiao > 4) {
-        printf("\nOpção inválida. Digite um número entre 1 e 4!\n");
-
-        return 0;
-    }
 
 
     frete = calculoFrete(regiao, peso);
@@ -154,7 +141,6 @@ int main() {
     dataEntrega.tm_mday += 3;
 
     mktime(&dataEntrega);
-
 
     Resumo(
         codigo,
